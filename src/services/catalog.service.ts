@@ -39,6 +39,7 @@ export const getComponents = async (categoryCode?: string): Promise<ComponentOpt
 
 export const getPrebuiltSets = async (): Promise<PrebuiltSet[]> => {
   const data = await apiFetch<PrebuiltSetDto[]>("/catalog/prebuilt-sets", { auth: false });
+  console.log("data", data);
   return data.map(toPrebuiltSet);
 };
 

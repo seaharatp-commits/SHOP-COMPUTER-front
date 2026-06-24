@@ -1,7 +1,6 @@
 "use client";
 
 import { ChakraProvider, createSystem, defaultConfig } from "@chakra-ui/react";
-import { ThemeProvider as ColorModeProvider } from "next-themes";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { CatalogProvider } from "@/context/CatalogContext";
@@ -26,13 +25,11 @@ const system = createSystem(defaultConfig, {
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <ChakraProvider value={system}>
-      <ColorModeProvider attribute="class" disableTransitionOnChange defaultTheme="light">
-        <AuthProvider>
-          <CatalogProvider>
-            <CartProvider>{children}</CartProvider>
-          </CatalogProvider>
-        </AuthProvider>
-      </ColorModeProvider>
+      <AuthProvider>
+        <CatalogProvider>
+          <CartProvider>{children}</CartProvider>
+        </CatalogProvider>
+      </AuthProvider>
     </ChakraProvider>
   );
 }

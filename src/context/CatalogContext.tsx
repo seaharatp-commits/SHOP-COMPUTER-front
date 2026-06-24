@@ -23,6 +23,7 @@ export function CatalogProvider({ children }: { children: React.ReactNode }) {
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [components, setComponents] = useState<ComponentOption[]>([]);
   const [prebuiltSets, setPrebuiltSets] = useState<PrebuiltSet[]>([]);
+  console.log("log", prebuiltSets);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,6 +33,7 @@ export function CatalogProvider({ children }: { children: React.ReactNode }) {
         setCategories([...categoriesData].sort((a, b) => a.sortOrder - b.sortOrder));
         setComponents(componentsData);
         setPrebuiltSets(prebuiltSetsData);
+        console.log("log2", prebuiltSetsData);
       })
       .catch(() => setError("ไม่สามารถโหลดข้อมูลสินค้าได้ กรุณาตรวจสอบว่า backend กำลังทำงานอยู่"))
       .finally(() => setIsLoading(false));
