@@ -4,7 +4,7 @@ import { Box, Stack, Heading, Text, HStack, Separator } from "@chakra-ui/react";
 import { CheckCircle2, Circle } from "lucide-react";
 import { BaseButton } from "@/components/ui/Button";
 import { formatCurrency } from "@/lib/utils/format";
-import { CATEGORY_LABEL, CATEGORY_ORDER } from "@/constant/data/components";
+import { useCatalog } from "@/context/CatalogContext";
 import type { PCBuild } from "@/types/app/product";
 
 interface BuildSummaryProps {
@@ -15,19 +15,21 @@ interface BuildSummaryProps {
 }
 
 export default function BuildSummary({ build, totalPrice, isComplete, onAddToCart }: BuildSummaryProps) {
+  const { categoryOrder, categoryLabel } = useCatalog();
+
   return (
     <Box bg="white" rounded="xl" borderWidth="1px" borderColor="gray.200" p={6} position="sticky" top={24}>
       <Heading as="h3" size="md" mb={4}>
         สรุปสเปกของคุณ
       </Heading>
       <Stack gap={2} mb={4}>
-        {CATEGORY_ORDER.map((category) => {
+        {categoryOrder.map((category) => {
           const part = build[category];
           return (
             <HStack key={category} justify="space-between" fontSize="sm">
               <HStack gap={2} color={part ? "gray.700" : "gray.400"}>
                 {part ? <CheckCircle2 size={14} color="#16a34a" /> : <Circle size={14} />}
-                <Text>{CATEGORY_LABEL[category]}</Text>
+                <Text>{categoryLabel[category]}</Text>
               </HStack>
               <Text fontWeight={part ? "medium" : "normal"} color={part ? "gray.800" : "gray.400"}>
                 {part ? formatCurrency(part.price) : "ยังไม่เลือก"}

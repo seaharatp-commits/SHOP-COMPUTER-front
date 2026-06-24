@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, HStack, Stack, Text, Badge, RadioCard } from "@chakra-ui/react";
+import { HStack, Stack, Text, Badge, RadioCard, Image } from "@chakra-ui/react";
 import { formatCurrency } from "@/lib/utils/format";
 import type { ComponentOption } from "@/types/app/product";
 
@@ -15,7 +15,7 @@ export default function OptionCard({ option }: { option: ComponentOption }) {
         _checked={{ borderColor: "brand.500", bg: "brand.50" }}
       >
         <HStack gap={4} w="full" align="start">
-          <Box as="img" src={option.image} alt={option.name} boxSize="56px" flexShrink={0} />
+          <Image src={option.image} alt={option.name} boxSize="56px" flexShrink={0} />
           <Stack gap={1} flex={1}>
             <HStack justify="space-between">
               <Text fontWeight="bold">{option.name}</Text>

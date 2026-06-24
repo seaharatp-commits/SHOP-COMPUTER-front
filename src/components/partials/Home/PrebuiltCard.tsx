@@ -1,20 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { Box, Badge, Heading, Text, Stack, HStack, List } from "@chakra-ui/react";
+import { Box, Badge, Heading, Text, Stack, HStack, List, Image } from "@chakra-ui/react";
 import { CheckCircle2 } from "lucide-react";
 import { BaseButton } from "@/components/ui/Button";
 import { formatCurrency } from "@/lib/utils/format";
-import { CATEGORY_ORDER } from "@/constant/data/components";
-import type { PrebuiltSet } from "@/types/app/product";
+import type { ComponentCategory, PrebuiltSet } from "@/types/app/product";
+
+const HIGHLIGHT_CATEGORIES: ComponentCategory[] = ["cpu", "gpu", "ram", "storage"];
 
 export default function PrebuiltCard({ set }: { set: PrebuiltSet }) {
-  const highlightCategories = CATEGORY_ORDER.filter((c) => c === "cpu" || c === "gpu" || c === "ram" || c === "storage");
+  const highlightCategories = HIGHLIGHT_CATEGORIES;
 
   return (
     <Box bg="white" borderWidth="1px" borderColor="gray.200" rounded="xl" overflow="hidden" _hover={{ shadow: "lg" }} transition="box-shadow 0.2s">
       <Box bg="gray.50" p={6} textAlign="center">
-        <Box as="img" src={set.image} alt={set.name} h="160px" mx="auto" />
+        <Image src={set.image} alt={set.name} h="160px" mx="auto" />
       </Box>
       <Stack p={6} gap={3}>
         <HStack justify="space-between">

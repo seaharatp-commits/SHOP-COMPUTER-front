@@ -1,7 +1,7 @@
 "use client";
 
 import { Stack, Heading, RadioCard } from "@chakra-ui/react";
-import { CATEGORY_LABEL, getOptionsByCategory } from "@/constant/data/components";
+import { useCatalog } from "@/context/CatalogContext";
 import OptionCard from "./OptionCard";
 import type { ComponentCategory, ComponentOption } from "@/types/app/product";
 
@@ -12,12 +12,13 @@ interface CategoryOptionsProps {
 }
 
 export default function CategoryOptions({ category, selected, onChange }: CategoryOptionsProps) {
+  const { getOptionsByCategory, categoryLabel } = useCatalog();
   const options = getOptionsByCategory(category);
 
   return (
     <Stack gap={4}>
       <Heading as="h2" size="md">
-        เลือก{CATEGORY_LABEL[category]}
+        เลือก{categoryLabel[category]}
       </Heading>
       <RadioCard.Root
         value={selected?.id ?? null}

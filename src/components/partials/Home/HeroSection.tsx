@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Box, Flex, Heading, Text, HStack } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, HStack, Image } from "@chakra-ui/react";
 import { Settings2, ShieldCheck } from "lucide-react";
 import { BaseButton } from "@/components/ui/Button";
 
@@ -36,7 +36,7 @@ export default function HeroSection() {
           </HStack>
         </Box>
         <Box flex={1} display={{ base: "none", md: "block" }}>
-          <Box as="img" src="/components/pc-hero.svg" alt="คอมเซทตัวอย่าง" w="full" maxW="420px" mx="auto" />
+          <Image src="/components/pc-hero.svg" alt="คอมเซทตัวอย่าง" w="full" maxW="420px" mx="auto" />
         </Box>
       </Flex>
     </Box>

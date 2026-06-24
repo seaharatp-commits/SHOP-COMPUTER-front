@@ -2,7 +2,7 @@
 
 import { Box, Stack, Text, HStack, Circle } from "@chakra-ui/react";
 import { Check } from "lucide-react";
-import { CATEGORY_LABEL, CATEGORY_ORDER } from "@/constant/data/components";
+import { useCatalog } from "@/context/CatalogContext";
 import type { ComponentCategory, PCBuild } from "@/types/app/product";
 
 interface CategoryNavProps {
@@ -12,9 +12,11 @@ interface CategoryNavProps {
 }
 
 export default function CategoryNav({ activeCategory, build, onSelect }: CategoryNavProps) {
+  const { categoryOrder, categoryLabel } = useCatalog();
+
   return (
     <Stack gap={1} as="nav">
-      {CATEGORY_ORDER.map((category) => {
+      {categoryOrder.map((category) => {
         const isActive = category === activeCategory;
         const isSelected = Boolean(build[category]);
         return (
@@ -33,7 +35,7 @@ export default function CategoryNav({ activeCategory, build, onSelect }: Categor
             textAlign="left"
             transition="background 0.15s"
           >
-            <Text fontSize="sm">{CATEGORY_LABEL[category]}</Text>
+            <Text fontSize="sm">{categoryLabel[category]}</Text>
             {isSelected && (
               <Circle size={5} bg="green.500" color="white">
                 <Check size={12} />

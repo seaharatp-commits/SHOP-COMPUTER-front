@@ -7,24 +7,23 @@ import { BaseButton } from "@/components/ui/Button";
 import { formatCurrency } from "@/lib/utils/format";
 import MockQrCode from "./MockQrCode";
 
-const QR_EXPIRY_SECONDS = 5 * 60;
-
 interface QRPaymentCardProps {
   amount: number;
   orderRef: string;
+  expiresAt: string;
   isConfirming: boolean;
   onConfirmPayment: () => void;
 }
 
-export default function QRPaymentCard({ amount, orderRef, isConfirming, onConfirmPayment }: QRPaymentCardProps) {
-  const [secondsLeft, setSecondsLeft] = useState(QR_EXPIRY_SECONDS);
+const getSecondsLeft = (expiresAt: string) => Math.max(0, Math.round((new Date(expiresAt).getTime() - Date.now()) / 1000));
+
+export default function QRPaymentCard({ amount, orderRef, expiresAt, isConfirming, onConfirmPayment }: QRPaymentCardProps) {
+  const [secondsLeft, setSecondsLeft] = useState(() => getSecondsLeft(expiresAt));
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setSecondsLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
+    const timer = setInterval(() => setSecondsLeft(getSecondsLeft(expiresAt)), 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [expiresAt]);
 
   const minutes = Math.floor(secondsLeft / 60);
   const seconds = secondsLeft % 60;

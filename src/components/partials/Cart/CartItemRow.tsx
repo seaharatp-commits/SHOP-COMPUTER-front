@@ -1,9 +1,8 @@
 "use client";
 
-import { Box, HStack, Stack, Text, IconButton, NumberInput } from "@chakra-ui/react";
+import { HStack, Stack, Text, IconButton, NumberInput, Image } from "@chakra-ui/react";
 import { Trash2 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils/format";
-import { CATEGORY_ORDER, CATEGORY_LABEL } from "@/constant/data/components";
 import type { CartItem } from "@/types/app/cart";
 
 interface CartItemRowProps {
@@ -13,13 +12,13 @@ interface CartItemRowProps {
 }
 
 export default function CartItemRow({ item, onQuantityChange, onRemove }: CartItemRowProps) {
-  const specs = CATEGORY_ORDER.map((category) => item.build[category])
+  const specs = Object.values(item.build)
     .filter(Boolean)
     .map((part) => part!.name);
 
   return (
     <HStack bg="white" rounded="xl" borderWidth="1px" borderColor="gray.200" p={4} gap={4} align="start">
-      <Box as="img" src={item.image} alt={item.name} boxSize="80px" flexShrink={0} bg="gray.50" rounded="md" />
+      <Image src={item.image} alt={item.name} boxSize="80px" flexShrink={0} bg="gray.50" rounded="md" />
       <Stack flex={1} gap={1}>
         <Text fontWeight="bold">{item.name}</Text>
         <Text fontSize="xs" color="gray.500">

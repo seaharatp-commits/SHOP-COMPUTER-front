@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Box, Flex, HStack, Text, Badge } from "@chakra-ui/react";
-import { Cpu, ShoppingCart } from "lucide-react";
+import { Cpu, ShoppingCart, User as UserIcon, LogOut } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 const NAV_LINKS = [
   { href: "/", label: "หน้าแรก" },
@@ -12,6 +14,13 @@ const NAV_LINKS = [
 
 export default function Header() {
   const { totalCount } = useCart();
+  const { user, isLoading, logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/");
+  };
 
   return (
     <Box as="header" position="sticky" top={0} zIndex={10} bg="white" borderBottomWidth="1px" borderColor="gray.100">
@@ -35,25 +44,58 @@ export default function Header() {
           ))}
         </HStack>
 
-        <Link href="/cart">
-          <Box position="relative" p={2}>
-            <ShoppingCart size={22} />
-            {totalCount > 0 && (
-              <Badge
-                position="absolute"
-                top={-1}
-                right={-1}
-                colorPalette="red"
-                borderRadius="full"
-                fontSize="0.65rem"
-                minW={5}
-                textAlign="center"
-              >
-                {totalCount}
-              </Badge>
-            )}
-          </Box>
-        </Link>
+        <HStack gap={4}>
+          {!isLoading && (
+            <>
+              {user ? (
+                <HStack gap={3}>
+                  {user.role === "ADMIN" && (
+                    <Link href="/dashboard">
+                      <Text fontSize="sm" fontWeight="medium" color="brand.600">
+                        แดชบอร์ด
+                      </Text>
+                    </Link>
+                  )}
+                  <HStack gap={1} color="gray.700" display={{ base: "none", sm: "flex" }}>
+                    <UserIcon size={16} />
+                    <Text fontSize="sm" fontWeight="medium">
+                      {user.fullName}
+                    </Text>
+                  </HStack>
+                  <Box as="button" onClick={handleLogout} color="gray.500" _hover={{ color: "red.500" }} title="ออกจากระบบ">
+                    <LogOut size={18} />
+                  </Box>
+                </HStack>
+              ) : (
+                <Link href="/login">
+                  <Text fontSize="sm" fontWeight="medium" color="brand.600">
+                    เข้าสู่ระบบ
+                  </Text>
+                </Link>
+              )}
+            </>
+          )}
+
+          <Link href="/cart">
+            <Box position="relative" p={2}>
+              <ShoppingCart size={22} />
+              {totalCount > 0 && (
+                <Badge
+                  position="absolute"
+                  top={-1}
+                  right={-1}
+                  colorPalette="red"
+                  borderRadius="full"
+                  fontSize="0.65rem"
+                  minW={5}
+                  textAlign="center"
+                >
+                  {totalCount}
+                </Badge>
+              )}
+            </Box>
+          </Link>
+        </HStack>
       </Flex>
     </Box>
   );
